@@ -6,12 +6,12 @@ import Register from "./pages/Register";
 
 function App() {
   return (
-    <div>
+    <div className='min-h-screen bg-gray-100'>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
+        <Route path='/' element={<Dashboard />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/login' element={<Login />} />
       </Routes>
     </div>
   );
