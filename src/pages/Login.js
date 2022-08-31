@@ -15,21 +15,21 @@ const Login = () => {
     <div>
       <h3>Login</h3>
       <form onSubmit={handleSubmit}>
-        <label htmlFor='email'>Email</label>
+        <label htmlFor="email">Email</label>
         <input
-          type='email'
-          id='email'
+          type="email"
+          id="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <label htmlFor='password'>Password</label>
+        <label htmlFor="password">Password</label>
         <input
-          type='password'
-          id='password'
+          type="password"
+          id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <button type='submit' disabled={isLoading}>
+        <button type="submit" disabled={isLoading}>
           Login
         </button>
         {error && <div>{error}</div>}

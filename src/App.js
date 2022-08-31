@@ -9,20 +9,20 @@ function App() {
   const { user } = useAuthContext();
 
   return (
-    <div className='min-h-screen bg-gray-100'>
+    <div className="min-h-screen bg-gray-100 font-inter">
       <Navbar />
       <Routes>
         <Route
-          path='/'
-          element={user ? <Dashboard /> : <Navigate to='/login' />}
+          path="/"
+          element={user ? <Dashboard /> : <Navigate to="/login" />}
         />
         <Route
-          path='/register'
-          element={!user ? <Register /> : <Navigate to='/' />}
+          path="/register"
+          element={!user ? <Register /> : <Navigate to="/" />}
         />
         <Route
-          path='/login'
-          element={!user ? <Login /> : <Navigate to='/' />}
+          path="/login"
+          element={!user ? <Login /> : <Navigate to="/" />}
         />
       </Routes>
     </div>
