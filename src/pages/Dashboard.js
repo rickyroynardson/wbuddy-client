@@ -28,14 +28,16 @@ const Dashboard = () => {
 
   return (
     <div>
-      dashboard
-      <div>
-        data
-        {workouts.map((workout) => (
-          <div>
-            <p>{workout.title}</p>
-          </div>
-        ))}
+      <h3>Dashboard</h3>
+      <div className="border-2 p-4">
+        {workouts &&
+          workouts.map((workout) => (
+            <div className="bg-white">
+              <p>{workout.title}</p>
+              <p>{workout.reps}</p>
+              <p>{workout.load}</p>
+            </div>
+          ))}
       </div>
     </div>
   );
