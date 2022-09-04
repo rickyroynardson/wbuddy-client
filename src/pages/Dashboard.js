@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
+import { formatDistanceToNow } from "date-fns";
 
 const Dashboard = () => {
   const { workouts, dispatch } = useWorkoutsContext();
@@ -29,13 +30,18 @@ const Dashboard = () => {
   return (
     <div>
       <h3>Dashboard</h3>
-      <div className="border-2 p-4">
+      <div className="p-4 grid gap-3">
         {workouts &&
           workouts.map((workout) => (
-            <div className="bg-white">
-              <p>{workout.title}</p>
-              <p>{workout.reps}</p>
-              <p>{workout.load}</p>
+            <div className="bg-white rounded-xl px-3 py-1.5">
+              <p className="text-xl font-semibold">{workout.title}</p>
+              <p>Reps: {workout.reps}</p>
+              <p>Load: {workout.load}</p>
+              <p className="text-sm text-gray-500">
+                {formatDistanceToNow(new Date(workout.createdAt), {
+                  addSuffix: true,
+                })}
+              </p>
             </div>
           ))}
       </div>
