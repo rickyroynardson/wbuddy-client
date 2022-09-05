@@ -29,15 +29,18 @@ const Dashboard = () => {
 
   return (
     <div>
-      <h3>Dashboard</h3>
-      <div className="p-4 grid gap-3">
+      <div className='p-4 flex justify-between'>
+        <h3 className='text-xl'>Dashboard</h3>
+        <button>Create</button>
+      </div>
+      <div className='px-4 grid gap-3'>
         {workouts &&
           workouts.map((workout) => (
-            <div className="bg-white rounded-xl px-3 py-1.5">
-              <p className="text-xl font-semibold">{workout.title}</p>
+            <div className='bg-white rounded-xl px-3 py-1.5'>
+              <p className='text-xl font-semibold'>{workout.title}</p>
               <p>Reps: {workout.reps}</p>
               <p>Load: {workout.load}</p>
-              <p className="text-sm text-gray-500">
+              <p className='text-sm text-gray-500'>
                 {formatDistanceToNow(new Date(workout.createdAt), {
                   addSuffix: true,
                 })}
