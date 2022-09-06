@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 import { formatDistanceToNow } from "date-fns";
@@ -6,6 +6,7 @@ import { formatDistanceToNow } from "date-fns";
 const Dashboard = () => {
   const { workouts, dispatch } = useWorkoutsContext();
   const { user } = useAuthContext();
+  const [createModal, setCreateModal] = useState(false);
 
   useEffect(() => {
     const fetchWorkouts = async () => {
@@ -23,15 +24,21 @@ const Dashboard = () => {
     };
 
     if (user) {
+      dispatch({ type: "SET_WORKOUTS", payload: null });
       fetchWorkouts();
     }
   }, [dispatch, user]);
 
   return (
     <div>
-      <div className='p-4 flex justify-between'>
+      <div className='p-4 flex items-center justify-between'>
         <h3 className='text-xl'>Dashboard</h3>
-        <button>Create</button>
+        <button
+          className='bg-sky-600 px-2 py-1 rounded text-sm text-white'
+          onClick={() => setCreateModal(true)}
+        >
+          Create
+        </button>
       </div>
       <div className='px-4 grid gap-3'>
         {workouts &&
@@ -47,6 +54,18 @@ const Dashboard = () => {
               </p>
             </div>
           ))}
+      </div>
+      <div
+        className={`${
+          createModal ? "grid place-items-center" : "invisible"
+        } bg-black bg-opacity-10 fixed top-0 left-0 w-full h-full px-8`}
+      >
+        <div className='bg-white w-full p-3 rounded-xl'>
+          <div>
+            <h4>Create</h4>
+            <button onClick={() => setCreateModal(false)}>Close</button>
+          </div>
+        </div>
       </div>
     </div>
   );
