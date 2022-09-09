@@ -8,6 +8,11 @@ const Dashboard = () => {
   const { user } = useAuthContext();
   const [createModal, setCreateModal] = useState(false);
 
+  const handleCreate = async (e) => {
+    e.preventDefault();
+    alert("Create");
+  };
+
   useEffect(() => {
     const fetchWorkouts = async () => {
       const response = await fetch(
@@ -61,9 +66,28 @@ const Dashboard = () => {
         } bg-black bg-opacity-10 fixed top-0 left-0 w-full h-full px-8`}
       >
         <div className='bg-white w-full p-3 rounded-xl'>
-          <div>
+          <div className='flex justify-between'>
             <h4>Create</h4>
             <button onClick={() => setCreateModal(false)}>Close</button>
+          </div>
+          <div>
+            <form onSubmit={handleCreate}>
+              <div>
+                <label htmlFor='title'>Title</label>
+                <input type='text' id='title' />
+              </div>
+              <div>
+                <label htmlFor='reps'>Reps</label>
+                <input type='text' id='reps' />
+              </div>
+              <div>
+                <label htmlFor='load'>Load</label>
+                <input type='text' id='load' />
+              </div>
+              <button type='submit' className='bg-blue-500'>
+                Submit
+              </button>
+            </form>
           </div>
         </div>
       </div>
