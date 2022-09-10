@@ -2,15 +2,50 @@ import { useEffect, useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 import { formatDistanceToNow } from "date-fns";
+import { FiEdit, FiTrash, FiX } from "react-icons/fi";
 
 const Dashboard = () => {
   const { workouts, dispatch } = useWorkoutsContext();
   const { user } = useAuthContext();
   const [createModal, setCreateModal] = useState(false);
+  const [title, setTitle] = useState("");
+  const [reps, setReps] = useState("");
+  const [load, setLoad] = useState("");
+  const [error, setError] = useState(null);
+  const [emptyFields, setEmptyFields] = useState([]);
 
   const handleCreate = async (e) => {
     e.preventDefault();
-    alert("Create");
+    if (!user) {
+      setError("You must be logged in!");
+      return;
+    }
+    const workout = { title, reps, load };
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URI}/api/workout`,
+      {
+        method: "POST",
+        body: JSON.stringify(workout),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
+    const json = await response.json();
+    if (!response.ok) {
+      setError(json.error);
+      setEmptyFields(json.emptyFields);
+    }
+    if (response.ok) {
+      dispatch({ type: "CREATE_WORKOUTS", payload: json });
+      setTitle("");
+      setReps("");
+      setLoad("");
+      setError(null);
+      setEmptyFields([]);
+      setCreateModal(false);
+    }
   };
 
   useEffect(() => {
@@ -48,7 +83,10 @@ const Dashboard = () => {
       <div className='px-4 grid gap-3'>
         {workouts &&
           workouts.map((workout) => (
-            <div className='bg-white rounded-xl px-3 py-1.5'>
+            <div
+              key={workout._id}
+              className='relative bg-white rounded-xl px-3 py-1.5'
+            >
               <p className='text-xl font-semibold'>{workout.title}</p>
               <p>Reps: {workout.reps}</p>
               <p>Load: {workout.load}</p>
@@ -57,6 +95,14 @@ const Dashboard = () => {
                   addSuffix: true,
                 })}
               </p>
+              <div className='flex gap-1 absolute right-0 top-0'>
+                <button>
+                  <FiEdit />
+                </button>
+                <button>
+                  <FiTrash />
+                </button>
+              </div>
             </div>
           ))}
       </div>
@@ -66,23 +112,44 @@ const Dashboard = () => {
         } bg-black bg-opacity-10 fixed top-0 left-0 w-full h-full px-8`}
       >
         <div className='bg-white w-full p-3 rounded-xl'>
-          <div className='flex justify-between'>
+          <div className='flex justify-between items-center'>
             <h4>Create</h4>
-            <button onClick={() => setCreateModal(false)}>Close</button>
+            <button
+              onClick={() => setCreateModal(false)}
+              className='bg-gray-200 h-6 w-6 grid place-items-center rounded-full'
+            >
+              <FiX />
+            </button>
           </div>
           <div>
+            {error && <p>{error}</p>}
             <form onSubmit={handleCreate}>
               <div>
                 <label htmlFor='title'>Title</label>
-                <input type='text' id='title' />
+                <input
+                  type='text'
+                  id='title'
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                />
               </div>
               <div>
                 <label htmlFor='reps'>Reps</label>
-                <input type='text' id='reps' />
+                <input
+                  type='text'
+                  id='reps'
+                  value={reps}
+                  onChange={(e) => setReps(e.target.value)}
+                />
               </div>
               <div>
                 <label htmlFor='load'>Load</label>
-                <input type='text' id='load' />
+                <input
+                  type='text'
+                  id='load'
+                  value={load}
+                  onChange={(e) => setLoad(e.target.value)}
+                />
               </div>
               <button type='submit' className='bg-blue-500'>
                 Submit

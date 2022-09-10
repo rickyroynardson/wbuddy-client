@@ -42,7 +42,9 @@ const Navbar = () => {
                 }`}
               >
                 <li className='text-sm px-3 py-1.5 hover:bg-slate-50'>
-                  <button onClick={handleLogout}>Logout</button>
+                  <button onClick={handleLogout} className='w-full text-start'>
+                    Logout
+                  </button>
                 </li>
               </ul>
             </div>
