@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
-import { formatDistanceToNow } from "date-fns";
-import { FiEdit, FiTrash, FiX } from "react-icons/fi";
+import WorkoutCard from "../components/WorkoutCard";
+import { FiX } from "react-icons/fi";
 
 const Dashboard = () => {
   const { workouts, dispatch } = useWorkoutsContext();
@@ -83,27 +83,7 @@ const Dashboard = () => {
       <div className='px-4 grid gap-3'>
         {workouts &&
           workouts.map((workout) => (
-            <div
-              key={workout._id}
-              className='relative bg-white rounded-xl px-3 py-1.5'
-            >
-              <p className='text-xl font-semibold'>{workout.title}</p>
-              <p>Reps: {workout.reps}</p>
-              <p>Load: {workout.load}</p>
-              <p className='text-sm text-gray-500'>
-                {formatDistanceToNow(new Date(workout.createdAt), {
-                  addSuffix: true,
-                })}
-              </p>
-              <div className='flex gap-1 absolute right-0 top-0'>
-                <button>
-                  <FiEdit />
-                </button>
-                <button>
-                  <FiTrash />
-                </button>
-              </div>
-            </div>
+            <WorkoutCard key={workout._id} workout={workout} />
           ))}
       </div>
       <div
